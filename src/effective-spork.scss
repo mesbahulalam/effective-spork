@@ -165,8 +165,6 @@ $large: 1201;
   }
 }
 
-
-
 $col_num: 12;
 
 $i: 1;
@@ -176,7 +174,6 @@ $i: 1;
     &.push-#{$i} {left: unquote((100 / ($col_num / $i))+"%")}
     &.pull-#{$i} {right: unquote((100 / ($col_num / $i))+"%")}
   }
-  .row
   $i: $i +1;
 }
 @media only screen and (min-width: #{$medium}+"px"){
@@ -205,7 +202,6 @@ $i: 1;
 
 /* Flex based grid Inspired by  */
 /* Cirrus (https://spiderpig86.github.io/Cirrus) */
-/* Copied mostly from https://flexgridlite.elliotdahl.com/ */
 .row {
   box-sizing: border-box;
   display: flex;
@@ -237,10 +233,10 @@ $i: 1;
     }
   }
   //Percent Based Columns
-  @for $i from 1 through 12 {
+  @for $i from 1 through $col_num {
     .col-#{$i} {
-      flex-basis: (100% / 12) * $i;
-      max-width: (100% / 12) * $i;
+      flex-basis: (100% / $col_num) * $i;
+      max-width: (100% / $col_num) * $i;
     }
   }
 }
@@ -332,8 +328,28 @@ table {
     0 9px 46px 8px rgba(0,0,0,0.12),
     0 11px 15px -7px rgba(0,0,0,0.2);
 }
-
+body {
+  margin: 0;
+  padding: 0;
+  color: map-get($colors, "white");
+  a {
+    color: #03f;
+    text-decoration: none;
+  }
+  &.black {
+    color: map-get($colors, "black");
+    a {color: #09f}
+  }
+}
+.card {
+  background-color: #fff;
+  transition: box-shadow .25s;
+  box-shadow: 0 6px 8px rgba(85, 102, 119, .03), 0 1px 1px rgba(85, 102, 119, .4);
+  border-top: solid 1px rgba(85,102,119,.18);
+}
 /* utilities */
+.ltr {direction: ltr}
+.rtl {direction: rtl}
 .underline {text-decoration: underline}
 .bold {font-weight: bold}
 .center-align {text-align: center}
