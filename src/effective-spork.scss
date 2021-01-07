@@ -1,1 +1,370 @@
-@import 'variables';
+/* text and link color from wapka */
+$text: #0033ff;
+$link: #0099ff;
+/* Colors from clrs.cc */
+$colors: (
+  "navy": #001F3F,
+  "blue": #0074D9,
+  "aqua": #7FDBFF,
+  "teal": #39CCCC,
+  "olive": #3D9970,
+  "green": #2ECC40,
+  "lime": #01FF70,
+  "yellow": #FFDC00,
+  "orange": #FF851B,
+  "red": #FF4136,
+  "fuchsia": #F012BE,
+  "purple": #B10DC9,
+  "maroon": #85144B,
+  "white": #FFFFFF,
+  "gray": #AAAAAA,
+  "silver": #DDDDDD,
+  "black": #111111,
+  "transparent": transparent
+);
+@each $color_name, $color in $colors {
+  .#{$color_name} {
+    background: $color !important;
+  }
+  .hover-#{$color_name}:hover {
+    background: $color !important;
+  }
+  .#{$color_name}-text {
+    color: $color !important;
+}
+.hover-#{$color_name}-text:hover {
+  color: $color !important;
+}
+.#{$color_name}-border {
+  border-color: $color !important;
+}
+.#{$color_name}-fill {
+  fill: $color !important;
+}
+.#{$color_name}-stroke {
+  stroke: $color !important;
+}
+}
+$space_size: 0.5rem;
+/* Margins & Paddings */
+/* Various sources, but mostly material design bootstrap */
+//$spacings: (0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 20, 24, 30, 36);
+$spacings: (0, 1, 2, 4, 5, 6, 8, 10, 12, 14, 15, 16);
+$directions: ("top", "right", "bottom", "left");
+@each $padding in $spacings {
+  .p-#{$padding} {
+    padding: calc(#{$space_size} * #{$padding}) !important;
+  }
+  @each $direction in $directions {
+    @if $direction == "left" {
+      .pl-#{$padding}, .px-#{$padding} {
+        padding-left: calc(#{$space_size} * #{$padding}) !important;
+      }
+    }
+    @else if $direction == "right" {
+      .pr-#{$padding}, .px-#{$padding} {
+        padding-right: calc(#{$space_size} * #{$padding}) !important;
+      }
+    }
+    @else if $direction == "top" {
+      .pt-#{$padding}, .py-#{$padding} {
+        padding-top: calc(#{$space_size} * #{$padding}) !important;
+      }
+    }
+    @else if $direction == "bottom" {
+      .pb-#{$padding}, .py-#{$padding} {
+        padding-bottom: calc(#{$space_size} * #{$padding}) !important;
+      }
+    }
+  }
+}
+@each $margin in $spacings {
+  .m-#{$margin} {
+    margin: calc(#{$space_size} * #{$margin}) !important;
+  }
+  @each $direction in $directions {
+    @if $direction == "left" {
+      .ml-#{$margin}, .mx-#{$margin} {
+        margin-left: calc(#{$space_size} * #{$margin}) !important;
+      }
+    }
+    @else if $direction == "right" {
+      .mr-#{$margin}, .mx-#{$margin} {
+        margin-right: calc(#{$space_size} * #{$margin}) !important;
+      }
+    }
+    @else if $direction == "top" {
+      .mt-#{$margin}, .my-#{$margin} {
+        margin-top: calc(#{$space_size} * #{$margin}) !important;
+      }
+    }
+    @else if $direction == "bottom" {
+      .mb-#{$margin}, .my-#{$margin} {
+        margin-bottom: calc(#{$space_size} * #{$margin}) !important;
+      }
+    }
+  }
+}
+$i: 100;
+@while $i > 0 {
+  .w-#{$i} {width: unquote($i+"%")}
+  .vw-#{$i} {width: unquote($i+"vw")}
+  .h-#{$i} {height: unquote($i+"%")}
+  .vh-#{$i} {height: unquote($i+"vh")}
+  $i: $i - 10;
+}
+
+
+$small: 667;
+$medium: 993;
+$large: 1201;
+
+
+/* Container from MaterializeCSS */
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 90%;
+}
+@media only screen and (min-width: #{$medium}+"px") {
+  .container {width: 85%}
+}
+@media only screen and (min-width: #{$large}+"px") {
+  .container {width: 70%}
+}
+
+/* Traditional 12 column width based grid */
+/* inspired by Cirrus (https://spiderpig86.github.io/Cirrus) */
+.r {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  & > .col {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    min-height: 1px;
+    & > .r, & > .row {
+      margin-left: -0.75rem;
+      margin-right: -0.75rem;
+    }
+  }
+  &.padded > .col {
+    padding: 0 0.75rem;
+  }
+  &:not(.padded) > .col {
+    padding: 0 0;
+  }
+  & > .col[class*="push-"], & > .col[class*="pull-"] {
+    position: relative;
+  }
+}
+
+
+
+$col_num: 12;
+
+$i: 1;
+@while $i <= $col_num {
+  .r > .col.s#{$i} {
+    width: unquote((100 / ($col_num / $i))+"%");
+    &.push-#{$i} {left: unquote((100 / ($col_num / $i))+"%")}
+    &.pull-#{$i} {right: unquote((100 / ($col_num / $i))+"%")}
+  }
+  .row
+  $i: $i +1;
+}
+@media only screen and (min-width: #{$medium}+"px"){
+  $i: 1;
+  @while $i <= $col_num {
+    .r > .col.m#{$i} {
+      width: unquote((100 / ($col_num / $i))+"%");
+      &.push-#{$i} {left: unquote((100 / ($col_num / $i))+"%")}
+      &.pull-#{$i} {right: unquote((100 / ($col_num / $i))+"%")}
+    }
+    $i: $i +1;
+  }
+}
+@media only screen and (min-width: #{$large}+"px"){
+  $i: 1;
+  @while $i <= $col_num {
+    .r > .col.l#{$i} {
+      width: unquote((100 / ($col_num / $i))+"%");
+      &.push-#{$i} {left: unquote((100 / ($col_num / $i))+"%")}
+      &.pull-#{$i} {right: unquote((100 / ($col_num / $i))+"%")}
+    }
+    $i: $i +1;
+  }
+}
+
+
+/* Flex based grid Inspired by  */
+/* Cirrus (https://spiderpig86.github.io/Cirrus) */
+/* Copied mostly from https://flexgridlite.elliotdahl.com/ */
+.row {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  /* Just an option */
+  &:not(.column) {flex-direction: row}
+  &.reverse {flex-direction: row-reverse}
+  &.column {flex-direction: column}
+  /* padding between children */
+  &.space-around {justify-content: space-around}
+  &.space-between {justify-content: space-between}
+  /* Here comes the children */
+  & > .col {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 100%;
+    min-width: 0;
+    &.first {order: -1}
+    &.last {order: 1}
+  }
+  & > .col-fixed {flex: initial}
+  //Grow Based Columns
+  @for $i from 2 through 11 {
+    .col-grow-#{$i} {
+      flex-grow: $i;
+    }
+  }
+  //Percent Based Columns
+  @for $i from 1 through 12 {
+    .col-#{$i} {
+      flex-basis: (100% / 12) * $i;
+      max-width: (100% / 12) * $i;
+    }
+  }
+}
+
+/* Small */
+@media only screen and (max-width: #{$small}+"px"){
+  .center-on-small {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hide-on-small {display: none}
+}
+/* Medium */
+@media only screen and (max-width: #{$large - 1}+"px"){
+  .center-on-medium-and-down {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .show-on-medium-and-down {display: block}
+  .hide-on-medium-and-down {display: none}
+  @media only screen and (min-width: #{$medium}+"px"){
+    .center-on-medium {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .show-on-medium {display: block}
+    .hide-on-medium {display: none}
+  }
+}
+@media only screen and (min-width: #{$medium}+"px"){
+  .show-on-medium-and-up {display: block}
+  .hide-on-medium-and-up {display: none}
+}
+/* Large */
+@media only screen and (min-width: #{$large}+"px"){
+  .show-on-large {display: block}
+  .hide-on-large {display: none}
+  .center-on-large {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* table from  https://mildrenben.github.io/surface/ */
+table {
+  &.table {
+    width: 100%;
+    border-collapse: collapse;
+    & thead {cursor: default}
+    & tr {
+      will-change: background;
+      transition: 200ms;
+      &:hover {background: #f9f9f9}
+      &:not(:last-child) {border-bottom: 1px solid #f9f9f9}
+    }
+    @media only screen and (min-width: 1px){
+      & td {
+        &:first-child {padding-left:25px}
+        &:last-child {padding-right: 25px}
+      }
+    }
+  }
+}
+/* Shadows from MaterializeCSS*/
+*[class*="z-depth"], *[class*="hover-z-depth"] {transition: 200ms}
+.z-depth-0, .hover-z-depth-0:hover {box-shadow: none !important}
+.z-depth-1, .hover-z-depth-1:hover {
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
+    0 3px 1px -2px rgba(0,0,0,0.12),
+    0 1px 5px 0 rgba(0,0,0,0.2);
+}
+.z-depth-2, .hover-z-depth-2:hover {
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14),
+    0 1px 10px 0 rgba(0,0,0,0.12),
+    0 2px 4px -1px rgba(0,0,0,0.3);
+}
+.z-depth-3, .hover-z-depth-3:hover {
+  box-shadow: 0 8px 17px 2px rgba(0,0,0,0.14),
+    0 3px 14px 2px rgba(0,0,0,0.12),
+    0 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
+.z-depth-4, .hover-z-depth-4:hover {
+  box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14),
+    0 6px 30px 5px rgba(0,0,0,0.12),
+    0 8px 10px -7px rgba(0,0,0,0.2);
+}
+.z-depth-5, .hover-z-depth-5:hover {
+  box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14),
+    0 9px 46px 8px rgba(0,0,0,0.12),
+    0 11px 15px -7px rgba(0,0,0,0.2);
+}
+
+/* utilities */
+.underline {text-decoration: underline}
+.bold {font-weight: bold}
+.center-align {text-align: center}
+.left-align {text-align: left}
+.right-align {text-align: right}
+.justify {text-align: justify}
+.wrap {white-space: normal}
+.nowrap {white-space: nowrap}
+.lowercase {text-transform: lowercase}
+.uppercase {text-transform: uppercase}
+.capitalize {text-transform: capitalize}
+.left {float: left}
+.right {float: right}
+.show {display: block}
+.hide {display: none}
+
+
+/* From MaterializeCSS */
+.divider {
+  height: 1px;
+  overflow: hidden;
+  background-color: rgba(85,102,119,.18);
+}
+.truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
